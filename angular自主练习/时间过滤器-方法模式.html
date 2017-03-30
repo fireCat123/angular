@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body ng-app="myApp">
+<div ng-controller="myCon">
+    {{now}}
+</div>
+<script src="angular.js"></script>
+<script>
+    angular.module("myApp",[])
+        //注入需要的 $scope,$filter
+            .controller("myCon",["$scope","$filter",function($scope,$filter){
+                //先定义当前时间，方便后面调用
+                var curr = new Date();
+                //然后获取过滤器中的指定过滤器名
+                var dateFn = $filter("date");
+                //最后调用过滤方法
+                $scope.now = dateFn(curr,"yyyy-MM-dd HH:mm:ss");
+
+            }])
+</script>
+</body>
+</html>

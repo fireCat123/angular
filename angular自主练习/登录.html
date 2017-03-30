@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="angular.js"></script>
+    <style>
+        .waring {
+            color: red;
+        }
+        .blue{
+            color:blue;
+        }
+        .red{
+            color:red;
+        }
+    </style>
+</head>
+<body ng-app="myApp" >
+<div ng-controller="myCon">
+    用户名：<input type="text" ng-model="txt1"/><br/>
+    密码：<input type="text" ng-model="txt2"/><br/>
+    <div class="waring">{{ waringText }}</div>
+    <div class="{{message}}">{{messText}}</div>
+    <input type="button" value="登录" ng-click="click()"/>
+</div>
+
+<script>
+    //使用自执行函数防止全局污染
+    (function(){
+        //为了方便先封装一个函数判断 值是否为空
+        function isEmptyOrWhiteSpace(scope,value){
+
+            return scope[value] == undefined || scope[value].trim().length == 0;
+
+        }
+
+        angular.module("myApp",[])
+                .controller("myCon",["$scope",function($scope){
+                    $scope.click = function(){
+                        //每次点击是初始化数据
+                        $scope.waringText = '';
+                        $scope.messageText = '';
+                        $scope.message = '';
+                         //判断账户密码是否为空
+                        if(isEmptyOrWhiteSpace($scope,'txt1') || isEmptyOrWhiteSpace($scope,'txt2')){
+                            $scope.waringText = "你输入的用户名或密码不能为空！";
+                            return;
+                        }
+                        //然后判断账户和密码是否匹配
+                        if($scope.txt1 =="zhangsan" && $scope.txt2 == "888888"){
+                            $scope.message = "blue";
+                            $scope.messText = "登录成功！";
+                            return;
+                        }else{
+                            $scope.message = "red";
+                            $scope.messText = "你输入的用户名或密码错误！";
+                            return;
+                        }
+                    }
+
+
+                }])
+    })()
+
+</script>
+</body>
+</html>

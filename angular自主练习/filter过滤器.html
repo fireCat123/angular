@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body ng-app="myApp">
+<div ng-controller="myCon">
+    <input type="text" ng-model="txt"/>
+    <table border="1" width="800">
+        <thead>
+            <th>name</th>
+            <th>age</th>
+            <th>gender</th>
+        </thead>
+        <tbody>
+           <tr ng-repeat="value in item | filter:{name:txt} " >
+              <td>{{value.name}}</td>
+              <td>{{value.age}}</td>
+              <td>{{value.gender}}</td>
+           </tr>
+        </tbody>
+    </table>
+</div>
+<script src="angular.js"></script>
+<script>
+    var data = [
+        { name: 'jim', age: 89, gender: 'man' },
+        { name: 'tom', age: 29, gender: 'female' },
+        { name: 'jack', age: 39, gender: 'man' },
+        { name: 'jerry', age: 49, gender: 'female' },
+        { name: 'rose', age: 59, gender: 'man' },
+        { name: 'bob', age: 69, gender: 'female' },
+        { name: 'deve', age: 79, gender: 'man' },
+        { name: 'hanmeimei', age: 19, gender: 'female' }
+    ];
+    angular.module("myApp",[])
+            .controller("myCon",["$scope","$filter",function($scope,$filter){
+                $scope.item = data;
+            }])
+</script>
+</body>
+</html>
