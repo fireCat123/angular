@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        div{
+            width: 200px;
+            margin:0 auto;
+        }
+    </style>
+    <script src="angular.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="myCon">
+    <!--在页面刚打开时 show没有被赋值，所以show为undefined !show 为真-->
+    <!--等待两秒后show 为真 所以!show 为假-->
+    <div ng-if="!show">
+        <img src="timg.gif" alt="">
+    </div>
+    <script>
+        angular.module("myApp",[])
+        // 注入$timeout 才能调用$timeout
+        .controller("myCon",["$scope","$timeout",function($scope,$timeout){
+            $timeout(function(){
+                 $scope.show = true;  
+            },2000)
+           
+        }])
+    </script>
+</body>
+</html>

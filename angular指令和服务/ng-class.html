@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        div{
+            width: 200px;
+            height: 200px;
+            border:1px solid palegreen;
+        }
+       .red{
+           background-color:red;
+       }
+       .blue{
+           background-color:blue;
+       }
+    </style>
+    <script src="angular.js"></script>
+</head>
+<body ng-app>
+    <div ng-mouseover=" name='red' " ng-mouseleave=" name='blue' " ng-class="{red:'red',blue:'blue'}[name]">
+        
+    </div>
+</body>
+</html>
