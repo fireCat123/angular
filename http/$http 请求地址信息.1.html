@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="angular.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="myCon">
+   <button type="" ng-click="click()">获取</button>
+   <select ng-model="alphabet">
+       <option value="{{k}}" ng-repeat="k in vals.keys">{{k}}</option>
+   </select>
+   <select name="" id="">
+       <option value="" ng-repeat="k in vals.citys[alphabet]">{{k.name}}</option>
+   </select>
+   <script>
+       angular.module("myApp",[])
+       //注入$http服务，
+       .controller("myCon",["$scope","$http",function($scope,$http){
+           $scope.click=function(){
+               //发送http请求
+               $http({
+                   url:"http://jklib.org/ele/cities.ashx",
+                   method:"get"
+               })//发送成功后开始执行获取数据
+               .success(function(data){
+                   console.log(data);
+                   //在$scope中设置一个对象,在对象中设置键值和接受的数据
+                   $scope.vals={
+                       //得到所有的键值
+                       keys:Object.keys(data),
+                       //保存数据
+                       citys:data
+                   }
+               })
+           }
+       }])
+   </script>
+</body>
+</html>

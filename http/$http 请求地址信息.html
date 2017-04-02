@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="angular.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="myCon">
+    <button type="" ng-click="myClick()">获取</button>
+    <select ng-model="alphabet">
+        <option ng-repeat="k in vals.keys" value="{{k}}">{{k}}</option>
+    </select>
+    <select name="" id="" >
+        <option  ng-repeat="item in vals.cities[alphabet]" value="{{item.name}}">{{item.name}}</option>
+    </select>
+    <script>
+        angular.module("myApp",[])
+        .controller("myCon",["$scope","$http", function($scope,$http){
+                   $scope.myClick=function(){
+                       $http({
+                           url:"http://jklib.org/ele/cities.ashx",
+                           method:"get"
+                       })
+                       .success(function(data){
+                            console.log(data);
+                            $scope.vals={
+                                keys:Object.keys(data),
+                                cities : data
+                            }
+                    
+                            
+                       })
+                   }
+        }])
+    </script>
+</body>
+</html>

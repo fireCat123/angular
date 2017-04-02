@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="angular.js"></script>
+     <script src="http://jklib.org/ele/cdn/encode.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="myCon">
+    <button ng-click="click()">获取</button>
+    <select ng-model="alphabet">
+        <option value="{{k}}" ng-repeat="k in vals.keys">{{k}}</option>
+    </select>
+    <select ng-model="cityId" ng-change="show()">
+        <option value="{{k.id}}" ng-repeat="k in vals.cities[alphabet]">{{k.name}}</option>
+    </select><br>
+    <input type="text"  ng-keyup="keyup()" ng-model="kval">
+    <div>
+        <ul>
+            <li ng-repeat="k in citys"><span>{{k.name}}</span><span>{{k.geohash}}</span></li>
+        </ul>
+    </div>
+    <script>
+          //定义全局变量，保存data,以及地理哈希值
+          var global_data;
+          var geohash;
+          angular.module("myApp",[])
+          .controller("myCon", ["$scope","$http",function($scope,$http){
+            //点击触发事件，发送请求，获取数据
+              $scope.click = function(){
+                  $http({
+                      url:"http://jklib.org/ele/cities.ashx",
+                      method:"get"
+                  })
+                  //请求成功之后，获取数据
+                  .success(function(data){
+                      console.log(data);
+                      global_data = data;
+                      //将数据保存在vals对象中，方便调用
+                      $scope.vals={
+                          keys:Object.keys(data),
+                          cities:data
+                      }
+                  })
+              }
+              //获取哈希值
+            $scope.show = function(){
+                var city,
+                cities = global_data[$scope.alphabet];//保存的是指定索引的城市组
+                for(var i=0; i<cities.length; i++){
+                    //因为id是唯一的，用来做标识，当id一致时，停止查找
+                    if(cities[i].id == $scope.cityId){
+                        city = cities[i];
+                        break;
+                    }
+                } 
+                geohash = geohashObj.encode( city.latitude, city.longitude);
+            }
+            //当按下键盘时，触发事件，发送请求，获取数据
+            $scope.keyup = function(){
+                 if(!$scope.kval) return;
+                 $http({
+                    
+                     url:"http://jklib.org/ele/pois.ashx?geohash="+ geohash + "&keyword=" + $scope.kval,
+                     method:"get"
+                 })
+                 .success(function(data){
+                     $scope.citys = data;
+                     console.log(data);
+                 })
+            }
+          }])
+    </script>
+</body>
+</html>
